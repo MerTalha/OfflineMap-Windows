@@ -22,17 +22,22 @@ namespace WindowsFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            providers = axMap2.Tiles.Providers;
-            providerid = (int)tkTileProvider.ProviderCustom + 1001;
-
-            providers.Add(providerid, "map", "C:/ms4w/Apache/htdocs/sat/z{zoom/{y}/{x}.jpg", tkTileProjection.SphericalMercator, 0, 10);
-
-            axMap2.Tiles.ProviderId = providerid;
+            
         }
 
         private void bindingNavigator1_RefreshItems(object sender, EventArgs e)
         {
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            providers = axMap2.Tiles.Providers;
+            providerid = (int)tkTileProvider.ProviderCustom + 1001;
+
+            providers.Add(providerid, "map", "http://127.0.0.1/sat/z{zoom}/{y}/{x}.jpg", tkTileProjection.SphericalMercator, 0, 18);
+
+            axMap2.Tiles.ProviderId = providerid;
         }
     }
 }
