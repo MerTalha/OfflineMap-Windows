@@ -36,17 +36,21 @@ namespace WindowsFormsApp1
             String loc = MapWinGIS.tkCursorMode.cmMeasure.ToString();
 
             MapWinGIS.Point pnt = new MapWinGIS.Point();
+
             double x = 0;
             double y = 0;
             axMap2.PixelToProj(0, 0, ref x, ref y);
             pnt.x = e.x; pnt.y = e.y;
+
             Shape shp = new Shape();
             shp.Create(ShpfileType.SHP_POINT);
             int index = shp.numPoints;
             shp.InsertPoint(pnt, index);
+
             String a = pnt.x.ToString();
             String b = pnt.y.ToString();
             Console.WriteLine(a +  " "  + b); 
+
             //index = sf.NumShapes;
             /*if (!sf.EditInsertShape(shp, ref index))
             {
