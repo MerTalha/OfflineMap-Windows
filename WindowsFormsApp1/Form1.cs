@@ -1,8 +1,10 @@
-﻿using MapWinGIS;
+﻿using AxMapWinGIS;
+using MapWinGIS;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -38,6 +40,56 @@ namespace WindowsFormsApp1
             providers.Add(providerid, "map", "http://127.0.0.1/sat/z{zoom}/{y}/{x}.jpg", tkTileProjection.SphericalMercator, 0, 18);
 
             axMap2.Tiles.ProviderId = providerid;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            axMap2.CursorMode = MapWinGIS.tkCursorMode.cmPan;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            axMap2.CursorMode = MapWinGIS.tkCursorMode.cmZoomOut;
+        }
+
+        public void Axmap2MouseDownEvet(object sender, _DMapEvents_MouseDownEvent e)
+        {
+
+        }
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void marker(object sender, _DMapEvents_MouseDownEvent e)
+        {
+            int m_layerHandle = -1;
+            Shapefile sf = axMap2.get_Shapefile(m_layerHandle);
+
+            axMap2.CursorMode = MapWinGIS.tkCursorMode.cmMeasure;
+            String loc = MapWinGIS.tkCursorMode.cmMeasure.ToString();
+
+            MapWinGIS.Point pnt = new MapWinGIS.Point();
+            double x = 0;
+            double y = 0;
+            axMap2.PixelToProj(e.x, e.y, ref x, ref y);
+            pnt.x = x; pnt.y = y;
+            Shape shp = new Shape();
+            shp.Create(ShpfileType.SHP_POINT);
+            int index = shp.numPoints;
+            shp.InsertPoint(pnt, index);
+
+            index = sf.NumShapes;
+            if (!sf.EditInsertShape(shp, ref index))
+            {
+                MessageBox.Show("Failed to insert shape: " + sf.ErrorMsg[sf.LastErrorCode]);
+                return;
+            }
+            axMap2.Redraw();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
         }
     }
 }
