@@ -36,19 +36,21 @@ namespace WindowsFormsApp1
             String loc = MapWinGIS.tkCursorMode.cmMeasure.ToString();
 
             MapWinGIS.Point pnt = new MapWinGIS.Point();
+            //String a = axMap2.Latitude.ToString();
+            //String b = axMap2.Longitude.ToString();
 
             double x = 0;
             double y = 0;
-            axMap2.PixelToProj(0, 0, ref x, ref y);
-            pnt.x = e.x; pnt.y = e.y;
+            axMap2.PixelToProj(e.x/1E6, e.y/1E6, ref x, ref y);
+            pnt.x = e.x/1E6; pnt.y = e.y / 1E6;
 
             Shape shp = new Shape();
             shp.Create(ShpfileType.SHP_POINT);
             int index = shp.numPoints;
             shp.InsertPoint(pnt, index);
 
-            String a = pnt.x.ToString();
-            String b = pnt.y.ToString();
+            String a = x.ToString();
+            String b = y.ToString();
             Console.WriteLine(a +  " "  + b); 
 
             //index = sf.NumShapes;
@@ -70,7 +72,7 @@ namespace WindowsFormsApp1
             providers = axMap2.Tiles.Providers;
             providerid = (int)tkTileProvider.ProviderCustom + 1001;
 
-            providers.Add(providerid, "map", "http://127.0.0.1/sat/z{zoom}/{y}/{x}.jpg", tkTileProjection.SphericalMercator, 0, 18);
+            providers.Add(providerid, "map", "http://127.0.0.1/satq/z{zoom}/{y}/{x}.jpg", tkTileProjection.SphericalMercator, 0, 17);
 
             axMap2.Tiles.ProviderId = providerid;
         }
